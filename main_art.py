@@ -15,25 +15,31 @@ ascii_str_length = len(ascii_str)
 key = 255/(ascii_str_length - 1)
 
 
-mapping_input = str(input("Choose brightness mapping: (average/luminosity/min_max)"))
+mapping_input = str(input("Choose brightness mapping: (average/luminosity/min_max): "))
 
+# Populating array with filtered RGB values
 for x in range(len(pixel_array)):
     row_array = []
     for y in range(len(pixel_array[x])):
+
+        # Calculating filters
         avg = (sum(pixel_array[x][y]))/3
         min_max = ((min(pixel_array[x][y]) + max(pixel_array[x][y]))/2)
         lumin = (pixel_array[x][y][0] * 0.21) + (pixel_array[x][y][1] * 0.72) + (pixel_array[x][y][2] * 0.07)
+
+        # Handling filters
         if mapping_input == "average":
             index = min(round(avg/key), (ascii_str_length - 1))
         elif mapping_input == "min_max":
             index = min(round(min_max/key), (ascii_str_length - 1))
         else:
             index = min(round(lumin/key), (ascii_str_length - 1))
+
         row_array.append(ascii_str[index] * 3) 
 
     bright_arr.append(row_array)
  
-print("RGB: " + str(pixel_array[0][0]) + "R: " + str(pixel_array[0][0][0]) + "G: " + str(pixel_array[0][0][1]) + "B: " + str(pixel_array[0][0][2]))
+
 color_input = str(input("Matrix color? (y/n)" ))
 
 # Printing the ASCII Image in green or default
